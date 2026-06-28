@@ -7,6 +7,14 @@
 # local version is not critical; we use the current LTS for a modern toolchain.
 [tools]
 node = "24.18.0"
+# Formatting/linting (Biome) and git hooks (lefthook) are managed as mise tools
+# rather than npm devDependencies, so node_modules — and therefore the deployed
+# plugin — stays limited to runtime deps (ws, bonjour-service).
+biome = "2.5.1"
+lefthook = "2.1.9"
+# Markdown linting (Biome does not cover Markdown). npm backend keeps it off the
+# project's runtime node_modules, consistent with the lean-deploy approach above.
+"npm:markdownlint-cli2" = "0.22.1"
 
 [env]
 # The Ulanzi SDK component repos have no tags/releases, so they are pinned by
@@ -29,11 +37,31 @@ run = [
   "npx -y degit@3 UlanziTechnology/plugin-common-node#${SDK_NODE_REF} plugin-common-node --force",
 ]
 
-# First-time setup: fetch the SDK, then install npm dependencies (ws, mDNS).
+# First-time setup: fetch the SDK, install npm dependencies (ws, mDNS), and
+# install the git hooks (Biome format/lint on commit).
 [tasks.setup]
-description = "First-time setup: fetch SDK + install npm dependencies"
+description = "First-time setup: fetch SDK + install deps + git hooks"
 depends = ["sync-sdk"]
-run = "npm install"
+run = [
+  "npm install",
+  "lefthook install",
+]
+
+# Format and autofix the whole repo: Biome (JS/HTML/JSON/JSONC) + markdownlint.
+[tasks.fmt]
+description = "Format & autofix: Biome (JS/HTML/JSON) + markdownlint"
+run = [
+  "biome check --write .",
+  'markdownlint-cli2 --fix "**/*.md"',
+]
+
+# Check the whole repo without writing (for CI / manual verification).
+[tasks.lint]
+description = "Lint/check without writing: Biome + markdownlint"
+run = [
+  "biome check .",
+  'markdownlint-cli2 "**/*.md"',
+]
 
 # Deploy this folder into the Ulanzi Studio Plugins directory (macOS) for
 # on-device testing. Studio loads the folder as-is, so dev-only files are

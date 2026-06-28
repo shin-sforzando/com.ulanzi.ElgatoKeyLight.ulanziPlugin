@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Elgato Key Light</title>
     <!-- common-html SDK: loaded via <script> tags; defines the global `$UD`. -->
     <script src="../libs/js/constants.js"></script>
@@ -55,11 +55,12 @@
     </div>
     <div class="row">
       <label for="ip">IP Address</label>
-      <input id="ip" type="text" placeholder="192.168.0.x" />
+      <input id="ip" type="text" placeholder="192.168.0.x">
     </div>
     <div class="hint">Pick a discovered light, or enter its IP manually.</div>
     <div id="dialHelp" class="hint" style="display: none">
-      Rotate the dial to adjust brightness; press and rotate to adjust color temperature.
+      Rotate the dial to adjust brightness; press and rotate to adjust color
+      temperature.
     </div>
 
     <script>
@@ -78,7 +79,9 @@
         deviceEl.innerHTML = "";
         const placeholder = document.createElement("option");
         placeholder.value = "";
-        placeholder.textContent = devices.length ? "Select a light…" : "No lights found";
+        placeholder.textContent = devices.length
+          ? "Select a light…"
+          : "No lights found";
         deviceEl.appendChild(placeholder);
 
         let matched = false;
@@ -132,13 +135,13 @@
       // Restore the previously configured IP and reflect it in the UI. The host
       // delivers saved settings in the `settings` field (not `param`).
       $UD.onDidReceiveSettings((m) => {
-        const ip = (m.settings && m.settings.ip) || "";
+        const ip = m.settings?.ip || "";
         if (ip) selectIp(ip);
       });
 
       // Receive the discovered device list from the main service.
       $UD.onSendToPropertyInspector((m) => {
-        devices = (m.payload && m.payload.devices) || [];
+        devices = m.payload?.devices || [];
         renderDevices();
       });
 

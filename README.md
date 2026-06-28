@@ -1,10 +1,20 @@
 # com.ulanzi.ElgatoKeyLight.ulanziPlugin
 
-A UlanziDeck plugin for the [Ulanzi D200X](https://www.ulanzi.jp/products/ulanzi-d200x-creative-deck-a045) to control [Elgato Key Light](https://www.elgato.com/key-light) devices.
+A UlanziDeck plugin for the **Ulanzi Decks** to control [Elgato Key Light](https://www.elgato.com/key-light).
 
 - **Toggle** action — turn a Key Light on/off.
 - **Dial** action (Encoder) — rotate to adjust brightness, hold + rotate to adjust color temperature.
 - Lights are discovered automatically on the LAN via mDNS (`_elg._tcp`); an IP can also be entered manually.
+
+![Screenshot](https://github.com/user-attachments/assets/3e854a62-36d5-48be-9735-ef6fc3c36b6b)
+
+- [Requirements](#requirements)
+- [How to](#how-to)
+  - [Setup](#setup)
+  - [Project layout](#project-layout)
+  - [Updating the SDK](#updating-the-sdk)
+  - [On-device testing](#on-device-testing)
+  - [Debugging](#debugging)
 
 ## Requirements
 
@@ -15,7 +25,9 @@ Node is pinned via `mise.toml` (currently Node 24 LTS). This pin governs local
 development tooling only — in production the plugin's main service runs on the
 Node runtime embedded in Ulanzi Studio.
 
-## Setup
+## How to
+
+### Setup
 
 ```shell
 mise trust      # trust this project's mise.toml (first time only)
@@ -26,7 +38,7 @@ mise run setup  # fetch the vendored Ulanzi SDK + install npm dependencies
 `mise run setup` runs `sync-sdk` (downloads the SDK into `libs/` and
 `plugin-common-node/`) followed by `npm install` (`ws`, `bonjour-service`).
 
-## Project layout
+### Project layout
 
 ```plain
 manifest.json            Plugin configuration
@@ -42,9 +54,9 @@ resources/               Action icons (placeholders — replace with real art)
 The vendored SDK directories (`libs/`, `plugin-common-node/`) are committed so the
 plugin folder is runnable and shippable as-is. Only `node_modules/` is gitignored.
 
-## Updating the SDK
+### Updating the SDK
 
-The Ulanzi SDK component repos have no tags/releases, so they are pinned by commit
+[Ulanzi SDK](https://github.com/UlanziTechnology/UlanziDeckPlugin-SDK) repos have no tags/releases, so they are pinned by commit
 SHA in `mise.toml` (`SDK_HTML_REF`, `SDK_NODE_REF`). To update:
 
 1. Bump the SHA(s) in `mise.toml`.
@@ -52,7 +64,7 @@ SHA in `mise.toml` (`SDK_HTML_REF`, `SDK_NODE_REF`). To update:
 3. Review `git diff` to see exactly what changed upstream.
 4. Commit.
 
-## On-device testing
+### On-device testing
 
 Test the plugin on a real Ulanzi deck + Elgato Key Light.
 
@@ -91,7 +103,16 @@ Test the plugin on a real Ulanzi deck + Elgato Key Light.
 
 After editing code, re-run `mise run deploy` and restart Studio (step 2).
 
-## Debugging
+> [!NOTE]
+> The author has only been able to test this in the following single environment:
+>
+> - macOS 26.5.1
+> - [Ulanzi D200X](https://www.ulanzi.jp/products/ulanzi-d200x-creative-deck-a045)
+> - Elgato Key Light Air
+>
+> If you encounter any issues on other platforms (e.g., Windows), with other Ulanzi decks, or with other Key Light models, please let me know.
+
+### Debugging
 
 Launch Ulanzi Studio with debug flags, then attach:
 

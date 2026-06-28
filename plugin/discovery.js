@@ -8,7 +8,9 @@ import { Bonjour } from "bonjour-service";
 
 // Prefer an IPv4 address; the Elgato HTTP API is reached over IPv4 in practice.
 function pickIPv4(addresses = []) {
-  return addresses.find((a) => /^\d+\.\d+\.\d+\.\d+$/.test(a)) || addresses[0] || "";
+  return (
+    addresses.find((a) => /^\d+\.\d+\.\d+\.\d+$/.test(a)) || addresses[0] || ""
+  );
 }
 
 export class KeyLightDiscovery {

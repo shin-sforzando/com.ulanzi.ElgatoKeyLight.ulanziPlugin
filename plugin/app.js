@@ -129,7 +129,7 @@ function scheduleLightPut(ip) {
       } catch (e) {
         $UD.logMessage(`Key Light PUT failed: ${e.message}`, "error");
       }
-    }, PUT_DEBOUNCE_MS)
+    }, PUT_DEBOUNCE_MS),
   );
 }
 
@@ -180,16 +180,22 @@ function adjust(context, mutate) {
   scheduleLightPut(info.ip);
 }
 $UD.onDialRotateRight((m) =>
-  adjust(m.context, (l) => (l.brightness = clamp(l.brightness + STEP, 0, 100)))
+  adjust(m.context, (l) => (l.brightness = clamp(l.brightness + STEP, 0, 100))),
 );
 $UD.onDialRotateLeft((m) =>
-  adjust(m.context, (l) => (l.brightness = clamp(l.brightness - STEP, 0, 100)))
+  adjust(m.context, (l) => (l.brightness = clamp(l.brightness - STEP, 0, 100))),
 );
 $UD.onDialRotateHoldRight((m) =>
-  adjust(m.context, (l) => (l.temperature = clamp(l.temperature + STEP, TEMP_MIN, TEMP_MAX)))
+  adjust(
+    m.context,
+    (l) => (l.temperature = clamp(l.temperature + STEP, TEMP_MIN, TEMP_MAX)),
+  ),
 );
 $UD.onDialRotateHoldLeft((m) =>
-  adjust(m.context, (l) => (l.temperature = clamp(l.temperature - STEP, TEMP_MIN, TEMP_MAX)))
+  adjust(
+    m.context,
+    (l) => (l.temperature = clamp(l.temperature - STEP, TEMP_MIN, TEMP_MAX)),
+  ),
 );
 
 // Messages from the Property Inspector: device selection and discovery requests.
