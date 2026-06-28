@@ -157,12 +157,36 @@ $UD.onAdd((m) => {
 // The host delivers saved settings in the `settings` field (not `param`).
 $UD.onDidReceiveSettings((m) => bindAction(m.context, m.settings?.ip));
 
+// Prune state when actions are removed from the deck (the `clear` event carries
+// an array of removed contexts) so stale instances stop receiving updates. Once
+// no action targets a light, drop its cached state and any pending timer.
+$UD.onClear((m) => {
+  for (const entry of m.param ?? []) {
+    actions.delete(entry.context);
+    openInspectors.delete(entry.context);
+  }
+  for (const ip of lights.keys()) {
+    const stillUsed = [...actions.values()].some((a) => a.ip === ip);
+    if (!stillUsed) {
+      clearTimeout(putTimers.get(ip));
+      putTimers.delete(ip);
+      lights.delete(ip);
+    }
+  }
+});
+
 // Toggle on/off.
 $UD.onRun(async (m) => {
   const info = actionOf(m.context);
   if (!info.ip) return $UD.showAlert(m.context);
-  const l = lightOf(info.ip);
   try {
+    // Cancel any pending dial PUT so a delayed { on: 1 } cannot undo an off
+    // toggle, and refresh from the device so the toggle direction reflects the
+    // light's real state (it may have changed outside this plugin).
+    clearTimeout(putTimers.get(info.ip));
+    putTimers.delete(info.ip);
+    const l = lightOf(info.ip);
+    Object.assign(l, await getLight(info.ip));
     const r = await putLight(info.ip, { on: l.on ? 0 : 1 });
     Object.assign(l, r);
     syncLight(info.ip);
