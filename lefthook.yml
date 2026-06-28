@@ -1,0 +1,15 @@
+# Git hooks. Install with `mise run setup` or `lefthook install`.
+# Commands are run through `mise exec` so the mise-managed tools (biome,
+# markdownlint-cli2) resolve even when the committing shell has not activated
+# mise. File scoping for Biome lives in biome.json; for markdownlint in
+# .markdownlint-cli2.jsonc (both skip the vendored SDK).
+pre-commit:
+  commands:
+    biome:
+      glob: "*.{js,html,json,jsonc}"
+      run: mise exec -- biome check --write --no-errors-on-unmatched {staged_files}
+      stage_fixed: true
+    markdownlint:
+      glob: "*.md"
+      run: mise exec -- markdownlint-cli2 --fix {staged_files}
+      stage_fixed: true

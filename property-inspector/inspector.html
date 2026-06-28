@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Elgato Key Light</title>
+    <!-- common-html SDK: loaded via <script> tags; defines the global `$UD`. -->
+    <script src="../libs/js/constants.js"></script>
+    <script src="../libs/js/eventEmitter.js"></script>
+    <script src="../libs/js/timers.js"></script>
+    <script src="../libs/js/utils.js"></script>
+    <script src="../libs/js/ulanziApi.js"></script>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        font-size: 13px;
+        color: #d8d8d8;
+        background: #2d2d2d;
+        margin: 0;
+        padding: 12px;
+      }
+      .row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+      .row label {
+        flex: 0 0 90px;
+        text-align: right;
+        color: #969696;
+      }
+      .row select,
+      .row input {
+        flex: 1;
+        background: #3d3d3d;
+        color: #d8d8d8;
+        border: 1px solid #4d4d4d;
+        border-radius: 4px;
+        padding: 5px 6px;
+      }
+      .hint {
+        color: #6d6d6d;
+        font-size: 11px;
+        margin-left: 98px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="row">
+      <label for="device">Key Light</label>
+      <select id="device">
+        <option value="">Searching…</option>
+      </select>
+    </div>
+    <div class="row">
+      <label for="ip">IP Address</label>
+      <input id="ip" type="text" placeholder="192.168.0.x">
+    </div>
+    <div class="hint">Pick a discovered light, or enter its IP manually.</div>
+    <div id="dialHelp" class="hint" style="display: none">
+      Rotate the dial to adjust brightness; press and rotate to adjust color
+      temperature.
+    </div>
+
+    <script>
+      const PLUGIN_UUID = "com.ulanzi.ulanzistudio.elgatokeylight";
+      const deviceEl = document.getElementById("device");
+      const ipEl = document.getElementById("ip");
+      const dialHelpEl = document.getElementById("dialHelp");
+
+      // Source of truth for the selection. Settings and the device list arrive in
+      // separate, unordered messages, so we re-render the dropdown from this
+      // whenever either changes — that keeps the saved light shown as selected.
+      let selectedIp = "";
+      let devices = [];
+
+      function renderDevices() {
+        deviceEl.innerHTML = "";
+        const placeholder = document.createElement("option");
+        placeholder.value = "";
+        placeholder.textContent = devices.length
+          ? "Select a light…"
+          : "No lights found";
+        deviceEl.appendChild(placeholder);
+
+        let matched = false;
+        for (const d of devices) {
+          const opt = document.createElement("option");
+          opt.value = d.ip;
+          opt.textContent = `${d.name} (${d.ip})`;
+          if (d.ip === selectedIp) {
+            opt.selected = true;
+            matched = true;
+          }
+          deviceEl.appendChild(opt);
+        }
+        // Keep a saved light visible/selected even if it is not currently
+        // being discovered (e.g. powered off).
+        if (selectedIp && !matched) {
+          const opt = document.createElement("option");
+          opt.value = selectedIp;
+          opt.textContent = `${selectedIp} (saved)`;
+          opt.selected = true;
+          deviceEl.appendChild(opt);
+        }
+      }
+
+      function selectIp(ip) {
+        selectedIp = ip;
+        ipEl.value = ip;
+        renderDevices();
+      }
+
+      // Persist the chosen IP and notify the main service.
+      function applyIp(ip) {
+        selectIp(ip);
+        $UD.setSettings({ ip });
+        $UD.sendToPlugin({ ip });
+      }
+
+      // The host supplies uuid/actionid/key/controller via query params; the
+      // argument here is only a fallback.
+      $UD.connect(PLUGIN_UUID);
+
+      $UD.onConnected(() => {
+        // Show dial usage help only for the encoder (Dial) action.
+        if ($UD.controller === "Encoder") dialHelpEl.style.display = "";
+        // Ask the main service for the current discovery list. Sending {} also
+        // registers this inspector so it receives live discovery updates.
+        $UD.sendToPlugin({});
+        $UD.getSettings();
+      });
+
+      // Restore the previously configured IP and reflect it in the UI. The host
+      // delivers saved settings in the `settings` field (not `param`).
+      $UD.onDidReceiveSettings((m) => {
+        const ip = m.settings?.ip || "";
+        if (ip) selectIp(ip);
+      });
+
+      // Receive the discovered device list from the main service.
+      $UD.onSendToPropertyInspector((m) => {
+        devices = m.payload?.devices || [];
+        renderDevices();
+      });
+
+      deviceEl.addEventListener("change", () => {
+        if (deviceEl.value) applyIp(deviceEl.value);
+      });
+      ipEl.addEventListener("change", () => applyIp(ipEl.value.trim()));
+    </script>
+  </body>
+</html>

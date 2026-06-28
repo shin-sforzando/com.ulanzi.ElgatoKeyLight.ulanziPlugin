@@ -1,0 +1,16 @@
+{
+  // markdownlint-cli2 configuration.
+  // https://github.com/DavidAnson/markdownlint-cli2
+  "config": {
+    "default": true,
+    // Prose and links are not hard-wrapped; line length is not enforced.
+    "MD013": false
+  },
+  // Vendored SDK docs, dependencies, and local agent workspace are not ours to lint.
+  "ignores": [
+    "node_modules/**",
+    "libs/**",
+    "plugin-common-node/**",
+    ".claude/**"
+  ]
+}
