@@ -1,0 +1,48 @@
+# mise configuration: pins the Node toolchain and automates first-time setup.
+#
+# Node runtime note: in production the plugin's main service is executed by the
+# Node runtime embedded in Ulanzi Studio (v20). This pin only governs LOCAL dev
+# tooling (degit / npm / standalone `node plugin/app.js` / the simulator). The
+# plugin code is ESM + global fetch + pure-JS deps (no native ABI), so the exact
+# local version is not critical; we use the current LTS for a modern toolchain.
+[tools]
+node = "24.18.0"
+
+[env]
+# The Ulanzi SDK component repos have no tags/releases, so they are pinned by
+# commit SHA. To update: bump a SHA, run `mise run sync-sdk`, review `git diff`,
+# then commit. Reproducibility ultimately comes from committing the fetched
+# files (vendoring), not from degit's ref resolution.
+SDK_HTML_REF = "0152f0d9399bff779768628c7a6e346e1fc15ed7"
+SDK_NODE_REF = "112bd13a7ff9d45bd68656f7e069fd61851d1812"
+
+# Fetch the vendored SDK into libs/ (Property Inspector) and plugin-common-node/
+# (Node main service). These directories ARE committed to the repo.
+#
+# degit may fail to resolve a bare commit SHA. If so, fall back to `#main`
+# (newest) or add `--mode=git` (real clone + checkout, any SHA). Either way the
+# pin is preserved by committing the result.
+[tasks.sync-sdk]
+description = "Fetch vendored Ulanzi SDK (libs/ + plugin-common-node/) at pinned SHAs"
+run = [
+  "npx -y degit@3 UlanziTechnology/plugin-common-html#${SDK_HTML_REF} libs --force",
+  "npx -y degit@3 UlanziTechnology/plugin-common-node#${SDK_NODE_REF} plugin-common-node --force",
+]
+
+# First-time setup: fetch the SDK, then install npm dependencies (ws, mDNS).
+[tasks.setup]
+description = "First-time setup: fetch SDK + install npm dependencies"
+depends = ["sync-sdk"]
+run = "npm install"
+
+# Deploy this folder into the Ulanzi Studio Plugins directory (macOS) for
+# on-device testing. Studio loads the folder as-is, so dev-only files are
+# excluded and node_modules (runtime deps) are included. Restart Studio after.
+[tasks.deploy]
+description = "Copy the plugin into the Ulanzi Studio Plugins dir (macOS)"
+run = """
+rsync -a --delete \
+  --exclude '.git' --exclude '.claude' --exclude '.vscode' --exclude '.gitignore' \
+  --exclude 'mise.toml' --exclude '.DS_Store' --exclude '*.log' \
+  ./ "$HOME/Library/Application Support/Ulanzi/UlanziDeck/Plugins/com.ulanzi.ElgatoKeyLight.ulanziPlugin/"
+"""

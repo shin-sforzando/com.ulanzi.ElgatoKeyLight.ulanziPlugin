@@ -1,0 +1,30 @@
+{
+  "Author": "shin-sforzando", "Name": "Elgato Key Light",
+  "Icon": "resources/icon.png", "Version": "1.0.0",
+  "UUID": "com.ulanzi.ulanzistudio.elgatokeylight",
+  "Type": "JavaScript", "CodePath": "plugin/app.js",
+  "Actions": [
+    {
+      "Name": "On / Off", "Icon": "resources/toggle.png",
+      "Tooltip": "Turn the Key Light on or off",
+      "UUID": "com.ulanzi.ulanzistudio.elgatokeylight.toggle",
+      "PropertyInspectorPath": "property-inspector/inspector.html",
+      "States": [
+        { "Name": "Off", "Image": "resources/off.png" },
+        { "Name": "On",  "Image": "resources/on.png" }
+      ]
+    },
+    {
+      "Name": "Brightness / Temperature", "Icon": "resources/dial.png",
+      "Tooltip": "Rotate to adjust brightness, press and rotate for color temperature",
+      "UUID": "com.ulanzi.ulanzistudio.elgatokeylight.dial",
+      "PropertyInspectorPath": "property-inspector/inspector.html",
+      "States": [{ "Name": "Default", "Image": "resources/dial.png" }],
+      "Controllers": ["Encoder"]
+    }
+  ],
+  "OS": [
+    { "Platform": "windows", "MinimumVersion": "10" },
+    { "Platform": "mac", "MinimumVersion": "10.11" }
+  ]
+}
