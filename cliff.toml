@@ -5,7 +5,7 @@
 header = """
 # CHANGELOG
 
-Last updated: {{ now() | date(format="%Y-%m-%d") }}
+Last updated: {{ now() | date(timezone="Asia/Tokyo", format="%Y-%m-%d") }}
 
 All notable changes to this project will be documented in this file.\n
 """
@@ -13,14 +13,14 @@ All notable changes to this project will be documented in this file.\n
 # https://tera.netlify.app/docs/#introduction
 body = """
 {% if version %}\
-    ## [{{ version | trim_start_matches(pat="v") }}] - {{ timestamp | date(format="%Y-%m-%d") }}
+    ## [{{ version | trim_start_matches(pat="v") }}] - {{ timestamp | date(timezone="Asia/Tokyo", format="%Y-%m-%d") }}
 {% else %}\
     ## [unreleased]
 {% endif %}\
 {% for group, commits in commits | group_by(attribute="group") %}
     ### {{ group | upper_first }}
     {% for commit in commits %}
-        - {{ commit.author.timestamp | date(format="%Y-%m-%d %H:%M:%S") }} {% if commit.breaking %}[**breaking**] {% endif %}{{ commit.message | upper_first }}{% if commit.remote %} by _@{{ commit.remote.username }}_{%- endif %}\
+        - {{ commit.author.timestamp | date(timezone="Asia/Tokyo", format="%Y-%m-%d %H:%M:%S") }} {% if commit.breaking %}[**breaking**] {% endif %}{{ commit.message | upper_first }}{% if commit.remote %} by _@{{ commit.remote.username }}_{%- endif %}\
     {% endfor %}
 {% endfor %}\
 {% if github.contributors | filter(attribute="is_first_time", value=true) | length > 0 %}

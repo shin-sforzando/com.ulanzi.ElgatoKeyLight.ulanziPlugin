@@ -4,16 +4,17 @@ Last updated: 2026-06-29
 
 All notable changes to this project will be documented in this file.
 
-## [1.0.0] - 2026-06-28
+## [1.0.0] - 2026-06-29
 
 ### Documentation
 
-- 2026-06-28 23:17:48 :notebook: update settings, README, and add configuration files by _@shin-sforzando_
+- 2026-06-29 08:17:48 :notebook: update settings, README, and add configuration files by _@shin-sforzando_
+- 2026-06-29 11:04:00 :notebook: update README, add CONTRIBUTING and CHANGELOG files
 
 ### Features
 
-- 2026-06-28 22:27:18 :sparkles: add mise setup and Elgato Key Light plugin by _@shin-sforzando_
-- 2026-06-28 23:27:04 :sparkles: prune state on action removal and improve IP selection by _@shin-sforzando_
+- 2026-06-29 07:27:18 :sparkles: add mise setup and Elgato Key Light plugin by _@shin-sforzando_
+- 2026-06-29 08:27:04 :sparkles: prune state on action removal and improve IP selection by _@shin-sforzando_
 
 ## Contributors
 
