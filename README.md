@@ -1,6 +1,8 @@
 # com.ulanzi.ElgatoKeyLight.ulanziPlugin
 
-A UlanziDeck plugin for the **Ulanzi Decks** to control [Elgato Key Light](https://www.elgato.com/key-light).
+Ulanzi Studio plugin to control [Elgato Key Light](https://www.elgato.com/key-light).
+
+![Icon](./resources/icon.png)
 
 - **Toggle** action — turn a Key Light on/off.
 - **Dial** action (Encoder) — rotate to adjust brightness, hold + rotate to adjust color temperature.
@@ -15,6 +17,8 @@ A UlanziDeck plugin for the **Ulanzi Decks** to control [Elgato Key Light](https
   - [Updating the SDK](#updating-the-sdk)
   - [On-device testing](#on-device-testing)
   - [Debugging](#debugging)
+- [Contributing](#contributing)
+- [Publishing](#publishing)
 
 ## Requirements
 
@@ -48,7 +52,7 @@ plugin-common-node/      Vendored common-node SDK (Node main service)
 plugin/app.js            Main service: deck events -> Key Light HTTP
 plugin/discovery.js      mDNS discovery of Key Light devices
 property-inspector/      Configuration UI (IP / device picker)
-resources/               Action icons (placeholders — replace with real art)
+resources/               Plugin & action icons (PNG)
 ```
 
 The vendored SDK directories (`libs/`, `plugin-common-node/`) are committed so the
@@ -130,3 +134,17 @@ A standalone smoke test of the main service (Ulanzi Studio not required for impo
 node --check plugin/app.js
 node plugin/app.js   # connects to Studio if running; otherwise waits/retries
 ```
+
+## Contributing
+
+Contributions are welcome. See [CONTRIBUTING.md](./CONTRIBUTING.md) for the
+development setup, formatting/linting, commit conventions, and PR workflow.
+
+## Publishing
+
+Build the distributable for the official Ulanzi marketplace
+([Ulanzi UGC Hub](https://ugc.ulanzistudio.com/)) with `mise run package`, which
+produces `dist/com.ulanzi.ElgatoKeyLight.ulanziPlugin.zip`.
+
+The pre-submission checklist and submission process are documented in the
+[project wiki](https://github.com/shin-sforzando/com.ulanzi.ElgatoKeyLight.ulanziPlugin/wiki).

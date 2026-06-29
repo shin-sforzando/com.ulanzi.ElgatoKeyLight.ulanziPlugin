@@ -15,6 +15,8 @@ lefthook = "2.1.9"
 # Markdown linting (Biome does not cover Markdown). npm backend keeps it off the
 # project's runtime node_modules, consistent with the lean-deploy approach above.
 "npm:markdownlint-cli2" = "0.22.1"
+# Changelog generation from Conventional Commits (used by `mise run changelog`).
+"git-cliff" = "2.13.1"
 
 [env]
 # The Ulanzi SDK component repos have no tags/releases, so they are pinned by
@@ -74,3 +76,40 @@ rsync -a --delete \
   --exclude 'mise.toml' --exclude '.DS_Store' --exclude '*.log' \
   ./ "$HOME/Library/Application Support/Ulanzi/UlanziDeck/Plugins/com.ulanzi.ElgatoKeyLight.ulanziPlugin/"
 """
+
+# Build the distributable ZIP for marketplace submission. The archive's top-level
+# entry is the `com.ulanzi.ElgatoKeyLight.ulanziPlugin/` folder, so reviewers can
+# unzip it straight into Studio's Plugins directory. Runtime deps (ws,
+# bonjour-service) are bundled via `npm install --omit=dev`; dev-only files and
+# tooling configs are excluded. Staging in a temp dir keeps the zip root clean.
+[tasks.package]
+description = "Build dist/com.ulanzi.ElgatoKeyLight.ulanziPlugin.zip for submission"
+run = """
+set -euo pipefail
+PLUGIN_DIR="com.ulanzi.ElgatoKeyLight.ulanziPlugin"
+# Ensure only runtime dependencies are present before bundling node_modules.
+npm install --omit=dev
+rm -rf dist
+mkdir -p dist
+STAGE="$(mktemp -d)"
+rsync -a \
+  --exclude '.git' --exclude '.claude' --exclude '.vscode' --exclude '.gitignore' \
+  --exclude '.github' --exclude 'dist' --exclude 'mise.toml' --exclude 'cliff.toml' \
+  --exclude 'lefthook.yml' --exclude 'biome.json' --exclude '.markdownlint-cli2.jsonc' \
+  --exclude 'CONTRIBUTING.md' \
+  --exclude '.DS_Store' --exclude '*.log' \
+  ./ "$STAGE/$PLUGIN_DIR/"
+( cd "$STAGE" && zip -r -q "$PLUGIN_DIR.zip" "$PLUGIN_DIR" )
+mv "$STAGE/$PLUGIN_DIR.zip" "dist/$PLUGIN_DIR.zip"
+rm -rf "$STAGE"
+echo "Built dist/$PLUGIN_DIR.zip"
+"""
+
+# Generate/refresh CHANGELOG.md from Conventional Commits via git-cliff. mise
+# appends any extra args to the command, so pass git-cliff flags through, e.g.
+# `mise run changelog -- --tag v1.0.0` to stamp the unreleased section as v1.0.0.
+# cliff.toml uses [remote.github]; set GITHUB_TOKEN in the environment to enrich
+# entries with contributor/PR data (optional).
+[tasks.changelog]
+description = "Generate CHANGELOG.md via git-cliff (e.g. -- --tag v1.0.0)"
+run = "git cliff --output CHANGELOG.md"

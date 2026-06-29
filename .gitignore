@@ -254,3 +254,7 @@ dist
 ### Project Specific ###
 # Claude Code
 .claude
+
+# Distributable plugin archive built by `mise run package` (also matched by the
+# generic `dist` rule above; kept here for clarity of intent).
+dist/
