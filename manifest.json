@@ -1,11 +1,15 @@
 {
   "Author": "shin-sforzando",
   "Name": "Elgato Key Light",
+  "Description": "Control Elgato Key Light (on/off, brightness, color temperature) from your Ulanzi Deck.",
   "Icon": "resources/icon.png",
   "Version": "1.0.0",
+  "Category": "Lighting",
+  "CategoryIcon": "resources/icon.png",
   "UUID": "com.ulanzi.ulanzistudio.elgatokeylight",
   "Type": "JavaScript",
   "CodePath": "plugin/app.js",
+  "Software": { "MinVersion": "3.0.11" },
   "Actions": [
     {
       "Name": "On / Off",
@@ -13,6 +17,7 @@
       "Tooltip": "Turn the Key Light on or off",
       "UUID": "com.ulanzi.ulanzistudio.elgatokeylight.toggle",
       "PropertyInspectorPath": "property-inspector/inspector.html",
+      "Devices": [],
       "States": [
         { "Name": "Off", "Image": "resources/off.png" },
         { "Name": "On", "Image": "resources/on.png" }
@@ -24,6 +29,7 @@
       "Tooltip": "Rotate to adjust brightness, press and rotate for color temperature",
       "UUID": "com.ulanzi.ulanzistudio.elgatokeylight.dial",
       "PropertyInspectorPath": "property-inspector/inspector.html",
+      "Devices": [],
       "States": [{ "Name": "Default", "Image": "resources/dial.png" }],
       "Controllers": ["Encoder"]
     }
