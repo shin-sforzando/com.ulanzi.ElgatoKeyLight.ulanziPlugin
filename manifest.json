@@ -3,7 +3,7 @@
   "Name": "Elgato Key Light",
   "Description": "Control Elgato Key Light (on/off, brightness, color temperature) from your Ulanzi Deck.",
   "Icon": "resources/icon.png",
-  "Version": "1.0.0",
+  "Version": "1.1.0",
   "Category": "Lighting",
   "CategoryIcon": "resources/icon.png",
   "UUID": "com.ulanzi.ulanzistudio.elgatokeylight",

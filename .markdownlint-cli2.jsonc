@@ -4,7 +4,10 @@
   "config": {
     "default": true,
     // Prose and links are not hard-wrapped; line length is not enforced.
-    "MD013": false
+    "MD013": false,
+    // CHANGELOG repeats section headings (Features, Documentation, ...) under each
+    // version heading; only flag duplicates that share the same parent.
+    "MD024": { "siblings_only": true }
   },
   // Vendored SDK docs, dependencies, and local agent workspace are not ours to lint.
   "ignores": [
