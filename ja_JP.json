@@ -1,0 +1,26 @@
+{
+  "Name": "Elgato Key Light",
+  "Description": "Ulanzi Deck から Elgato Key Light を操作します（オン/オフ、明るさ、色温度）。",
+  "Actions": [
+    {
+      "Name": "オン / オフ",
+      "Tooltip": "Key Light をオン/オフします",
+      "States": [{ "Name": "オフ" }, { "Name": "オン" }]
+    },
+    {
+      "Name": "明るさ / 色温度",
+      "Tooltip": "回して明るさを調整、押しながら回して色温度を調整します",
+      "States": [{ "Name": "デフォルト" }]
+    }
+  ],
+  "Localization": {
+    "ui_device_label": "ライト",
+    "ui_searching": "検索中…",
+    "ui_ip_label": "IPアドレス",
+    "ui_hint_manual": "検出されたライトを選ぶか、IPアドレスを手動で入力してください。",
+    "ui_hint_dial": "ダイヤルを回して明るさを調整します。押しながら回すと色温度を調整できます。",
+    "ui_select_light": "ライトを選択…",
+    "ui_no_lights": "ライトが見つかりません",
+    "ui_saved": "保存済み"
+  }
+}

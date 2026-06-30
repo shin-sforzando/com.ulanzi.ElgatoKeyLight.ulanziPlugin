@@ -1,0 +1,26 @@
+{
+  "Name": "Elgato Key Light",
+  "Description": "Controla la Elgato Key Light (encendido/apagado, brillo, temperatura de color) desde tu Ulanzi Deck.",
+  "Actions": [
+    {
+      "Name": "Encender / Apagar",
+      "Tooltip": "Encender o apagar la Key Light",
+      "States": [{ "Name": "Apagado" }, { "Name": "Encendido" }]
+    },
+    {
+      "Name": "Brillo / Temperatura",
+      "Tooltip": "Gira para ajustar el brillo, pulsa y gira para la temperatura de color",
+      "States": [{ "Name": "Predeterminado" }]
+    }
+  ],
+  "Localization": {
+    "ui_device_label": "Key Light",
+    "ui_searching": "Buscando…",
+    "ui_ip_label": "Dirección IP",
+    "ui_hint_manual": "Elige una luz detectada o introduce su dirección IP manualmente.",
+    "ui_hint_dial": "Gira la rueda para ajustar el brillo; pulsa y gira para ajustar la temperatura de color.",
+    "ui_select_light": "Seleccionar una luz…",
+    "ui_no_lights": "No se encontraron luces",
+    "ui_saved": "guardado"
+  }
+}
