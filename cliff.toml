@@ -47,7 +47,7 @@ commit_parsers = [
     { body = ".*security", group = "Security"},
     { message = "^chore", group = "Miscellaneous Tasks", skip = true},
     { message = "^chore\\(release\\): prepare for", skip = true},
-    { message = "^doc", group = "Documentation"},
+    { message = "^docs", group = "Documentation", skip = true},
     { message = "^feat", group = "Features"},
     { message = "^fix", group = "Bug Fixes"},
     { message = "^perf", group = "Performance"},
