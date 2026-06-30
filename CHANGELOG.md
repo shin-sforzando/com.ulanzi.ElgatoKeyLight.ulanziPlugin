@@ -6,20 +6,11 @@ All notable changes to this project will be documented in this file.
 
 ## [1.1.0] - 2026-07-01
 
-### Documentation
-
-- 2026-06-29 11:08:04 :notebook: update CHANGELOG and cliff.toml for date formatting by _@shin-sforzando_
-
 ### Features
 
 - 2026-07-01 08:18:02 :sparkles: Add localization support for 8 languages by _@shin-sforzando_
 
 ## [1.0.0] - 2026-06-29
-
-### Documentation
-
-- 2026-06-29 08:17:48 :notebook: update settings, README, and add configuration files by _@shin-sforzando_
-- 2026-06-29 11:04:00 :notebook: update README, add CONTRIBUTING and CHANGELOG files by _@shin-sforzando_
 
 ### Features
 
