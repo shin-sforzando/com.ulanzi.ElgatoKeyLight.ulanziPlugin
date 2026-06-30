@@ -1,0 +1,26 @@
+{
+  "Name": "Elgato Key Light",
+  "Description": "Control Elgato Key Light (on/off, brightness, color temperature) from your Ulanzi Deck.",
+  "Actions": [
+    {
+      "Name": "On / Off",
+      "Tooltip": "Turn the Key Light on or off",
+      "States": [{ "Name": "Off" }, { "Name": "On" }]
+    },
+    {
+      "Name": "Brightness / Temperature",
+      "Tooltip": "Rotate to adjust brightness, press and rotate for color temperature",
+      "States": [{ "Name": "Default" }]
+    }
+  ],
+  "Localization": {
+    "ui_device_label": "Key Light",
+    "ui_searching": "Searching…",
+    "ui_ip_label": "IP Address",
+    "ui_hint_manual": "Pick a discovered light, or enter its IP manually.",
+    "ui_hint_dial": "Rotate the dial to adjust brightness; press and rotate to adjust color temperature.",
+    "ui_select_light": "Select a light…",
+    "ui_no_lights": "No lights found",
+    "ui_saved": "saved"
+  }
+}
