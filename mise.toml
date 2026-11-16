@@ -6,28 +6,28 @@
 # plugin code is ESM + global fetch + pure-JS deps (no native ABI), so the exact
 # local version is not critical; we use the current LTS for a modern toolchain.
 [tools]
-node = "24.18.0"
+node = "26.13.1"
 # Formatting/linting (Biome) and git hooks (lefthook) are managed as mise tools
 # rather than npm devDependencies, so node_modules — and therefore the deployed
 # plugin — stays limited to runtime deps (ws, bonjour-service).
-biome = "2.5.1"
-lefthook = "2.1.9"
+biome = "2.6.8"
+lefthook = "2.2.2"
 # Markdown linting (Biome does not cover Markdown). npm backend keeps it off the
 # project's runtime node_modules, consistent with the lean-deploy approach above.
-"npm:markdownlint-cli2" = "0.22.1"
+"npm:markdownlint-cli2" = "0.24.1"
 # Changelog generation from Conventional Commits (used by `mise run changelog`).
-"git-cliff" = "2.13.1"
+"git-cliff" = "2.14.2"
 
 [env]
 # The Ulanzi SDK component repos have no tags/releases, so they are pinned by
 # commit SHA. To update: bump a SHA, run `mise run sync-sdk`, review `git diff`,
 # then commit. Reproducibility ultimately comes from committing the fetched
 # files (vendoring), not from degit's ref resolution.
-SDK_HTML_REF = "0152f0d9399bff779768628c7a6e346e1fc15ed7"
-SDK_NODE_REF = "112bd13a7ff9d45bd68656f7e069fd61851d1812"
+SDK_HTML_REF = "0aeb6a26b43cd45b8a5426689ca6e59c1a36b43d"
+SDK_NODE_REF = "9e478b2586a4ebdadbd590fc8f80519df18a8d32"
 # Node runtime embedded in Ulanzi Studio (v20), i.e. what runs the plugin in
 # production. deploy/package smoke-test with it so a module or syntax issue
-# that the local Node 24 would tolerate still fails the build.
+# that the newer local Node would tolerate still fails the build.
 STUDIO_NODE = "/Applications/Ulanzi Studio.app/Contents/MacOS/NodeJS/node"
 
 # Fetch the vendored SDK into libs/ (Property Inspector) and plugin-common-node/

@@ -25,7 +25,7 @@ Ulanzi Studio plugin to control [Elgato Key Light](https://www.elgato.com/key-li
 - [mise](https://mise.jdx.dev/) (manages the Node toolchain)
 - [Ulanzi Studio](https://www.ulanzi.com/pages/ulanzi-app) 3.0.11+
 
-Node is pinned via `mise.toml` (currently Node 24 LTS). This pin governs local
+Node is pinned via `mise.toml` (currently Node 26 LTS). This pin governs local
 development tooling only — in production the plugin's main service runs on the
 Node runtime embedded in Ulanzi Studio.
 

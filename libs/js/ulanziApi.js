@@ -462,6 +462,63 @@ class UlanziStreamDeck {
   }
 
   /**
+   * Set the active state for an action instance.
+   * @param {string} context Required | Target action context
+   * @param {number} state Required | State index from manifest.json
+   */
+  setState(context, state) {
+    const { uuid, key, actionid } = this.decodeContext(context);
+    this.send(Events.SETSTATE, {
+      param: { uuid, key, actionid, state },
+    });
+  }
+
+  /**
+   * Set runtime images for an action instance.
+   * @param {string} context Required | Target action context
+   * @param {object} options Required | Protocol fields: isDefault, icons, or clear
+   */
+  setImage(context, options) {
+    const { uuid, key, actionid } = this.decodeContext(context);
+    this.send(Events.SETIMAGE, {
+      param: { uuid, key, actionid, ...(options || {}) },
+    });
+  }
+
+  /**
+   * Set the title for an action instance.
+   * @param {string} context Required | Target action context
+   * @param {string} text Required | Title text
+   */
+  setTitle(context, text) {
+    const { uuid, key, actionid } = this.decodeContext(context);
+    this.send(Events.SETTITLE, {
+      param: { uuid, key, actionid, text },
+    });
+  }
+
+  /**
+   * Set a built-in encoder feedback layout.
+   * Custom layout files are not supported by protocol V3.1.0.
+   * @param {string} context Required | Target encoder action context
+   * @param {string} layout Required | Built-in layout identifier, such as $UA1
+   */
+  setFeedbackLayout(context, layout) {
+    const { uuid, key, actionid } = this.decodeContext(context);
+    this.send(Events.SETFEEDBACKLAYOUT, { uuid, key, actionid, layout });
+  }
+
+  /**
+   * Update elements in the current encoder feedback layout.
+   * @param {string} context Required | Target encoder action context
+   * @param {object} layout Required | Layout element values keyed by element name
+   */
+  setFeedback(context, layout) {
+    const { uuid, key, actionid } = this.decodeContext(context);
+    this.send(Events.SETFEEDBACK, { uuid, key, actionid, layout });
+  }
+
+  /**
    * 设置图标-使⽤配置⾥的图标列表编号，请对照manifest.json
    * @param {string} context 必传 |唯一id,每个message里面common库会自动拼接给出
    * @param {number} state 必传 | 图标列表编号，

@@ -9,7 +9,7 @@ interface ActionProps {
     key: string;
 }
 
-type Cmd = "run" | "add" | "clear" | "paramfromapp" | "paramfromplugin" | "setactive" | "state" | "openurl" | "openview" | "selectdialog" | "logMessage" | "hotkey" | "showAlert" | "sendToPropertyInspector" | "sendToPlugin" | "getSettings" | "setSettings" | "didReceiveSettings" | "setGlobalSettings" | "didReceiveGlobalSettings" | "getGlobalSettings" | "keydown" | "keyup" | "dialdown" | "dialup" | "dialrotate";
+type Cmd = "run" | "add" | "clear" | "paramfromapp" | "paramfromplugin" | "setactive" | "state" | "setState" | "setImage" | "setTitle" | "openurl" | "openview" | "selectdialog" | "logMessage" | "hotkey" | "showAlert" | "sendToPropertyInspector" | "sendToPlugin" | "getSettings" | "setSettings" | "didReceiveSettings" | "setGlobalSettings" | "didReceiveGlobalSettings" | "getGlobalSettings" | "keydown" | "keyup" | "dialdown" | "dialup" | "dialrotate" | "setFeedbackLayout" | "setFeedback";
 interface DeckRespDataBase<TCmd extends Cmd> {
     cmd: TCmd;
     /** 0-成功，非0-失败 */
@@ -43,7 +43,6 @@ interface SelectDialogRespData extends DeckRespDataBase<'selectdialog'> {
     path: string;
 }
 
-
 // api
 //
 type UlanzideckApiData<TData> = TData & {
@@ -57,8 +56,6 @@ type UlanzideckSetActiveRespData = Readonly<UlanzideckApiData<SetActiveRespData>
 type UlanzideckStateRespData = Readonly<UlanzideckApiData<StateRespData>>;
 type UlanzideckOpenUrlRespData = Readonly<UlanzideckApiData<OpenUrlRespData>>;
 type UlanzideckSelectDialogRespData = Readonly<UlanzideckApiData<SelectDialogRespData>>;
-
-
 // events
 // 
 export type OnConnected = (data: never) => void;

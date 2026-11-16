@@ -8,7 +8,7 @@
 
 ulanzistudio-plugin-sdk 封装了与 UlanziStudio 上位机的 WebSocket 连接及相关通信事件，简化了开发流程。开发者只需通过简单的事件调用即可实现与上位机的通信，从而更专注于插件功能的开发。
 
-> 当前版本根据 **Ulanzi JS 插件开发协议 - V2.1.2** 编写。
+> 当前版本根据 **Ulanzi JS 插件开发协议 - V3.1.0** 编写。
 
 `manifest.json` 配置参考，请查看 **[manifest.zh.md](https://github.com/UlanziTechnology/UlanziDeckPlugin-SDK/blob/main/manifest.zh.md)**。
 
@@ -298,6 +298,51 @@ $UD.setGifDataIcon(context, gifdata, text)
  */
 $UD.setGifPathIcon(context, gifpath, text)
 ```
+
+### V3.1 显示内容设置
+
+以下命令要求 UlanziStudio 3.3.0 或更高版本，用于补充上面的旧版 `state` 图标方法。
+
+```js
+// 切换 manifest 中定义的当前状态。
+$UD.setState(context, 1)
+
+// 设置一个或多个状态的运行时默认图标。
+$UD.setImage(context, {
+  isDefault: true,
+  icons: [
+    { state: 0, source: 'path', path: 'images/off.png' },
+    { state: 1, source: 'base64', base64: 'data:image/png;base64,...' }
+  ]
+})
+
+// 设置当前状态的临时图标。
+$UD.setImage(context, {
+  isDefault: false,
+  icons: { source: 'path', path: 'images/result.png' }
+})
+
+// 清除当前 action 的全部运行时默认图标。
+$UD.setImage(context, { clear: true })
+
+$UD.setTitle(context, '就绪')
+```
+
+每个 `icons` 项在 V3.1.0 协议中支持 `source: 'path'`、`source: 'base64'`、`source: 'state'` 或 `source: 'clear'`；省略 `source` 时默认使用 `path`。
+
+### 旋钮反馈
+
+```js
+// V3.1.0 协议仅支持内置布局标识。
+$UD.setFeedbackLayout(context, '$UA1')
+
+$UD.setFeedback(context, {
+  title: { text: '就绪' },
+  icon: { value: 'Images/new.png' }
+})
+```
+
+协议将 `custom-layout.json` 等自定义布局文件标为“待实现”，因此公共库不会封装该分支。
 
 ### 发送参数
 
