@@ -146,5 +146,13 @@ Build the distributable for the official Ulanzi marketplace
 ([Ulanzi UGC Hub](https://ugc.ulanzistudio.com/)) with `mise run package`, which
 produces `dist/com.ulanzi.ElgatoKeyLight.ulanziPlugin.zip`.
 
+Both `mise run package` and `mise run deploy` copy files using the shared
+exclude list in `.packageignore`, then run `scripts/smoke-test.mjs` on Ulanzi
+Studio's embedded Node to prove every runtime dependency still resolves. A
+failing smoke test aborts the task, so a broken ZIP is never produced. When
+adding an exclude, anchor repo-level paths with a leading `/`: an unanchored
+pattern also matches inside `node_modules` (this is how v1.1.0 shipped without
+`bonjour-service/dist`).
+
 The pre-submission checklist and submission process are documented in the
 [project wiki](https://github.com/shin-sforzando/com.ulanzi.ElgatoKeyLight.ulanziPlugin/wiki).

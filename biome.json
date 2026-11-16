@@ -4,6 +4,7 @@
     "includes": [
       "plugin/**",
       "property-inspector/**",
+      "scripts/**",
       "manifest.json",
       "package.json",
       "biome.json",
