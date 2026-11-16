@@ -8,7 +8,7 @@
 
 The ulanzistudio-plugin-sdk encapsulates the WebSocket connection with the UlanziStudio and its related communication events. This simplifies the development process and enables developers to communicate with the UlanziStudio through simple event calls, allowing them to focus more on the development of plugin functions.
 
-> Current version is developed according to the **Ulanzi JS Plugin Development Protocol - V2.1.2**.
+> Current version is developed according to the **Ulanzi JS Plugin Development Protocol - V3.1.0**.
 
 For `manifest.json` configuration reference, see **[manifest.md](https://github.com/UlanziTechnology/UlanziDeckPlugin-SDK/blob/main/manifest.md)**.
 
@@ -298,6 +298,51 @@ $UD.setGifDataIcon(context, gifdata, text)
  */
 $UD.setGifPathIcon(context, gifpath, text)
 ```
+
+### V3.1 Display Content
+
+These commands require UlanziStudio 3.3.0 or later. They complement the legacy `state` icon helpers above.
+
+```js
+// Change the active manifest state.
+$UD.setState(context, 1)
+
+// Set default runtime images for one or more states.
+$UD.setImage(context, {
+  isDefault: true,
+  icons: [
+    { state: 0, source: 'path', path: 'images/off.png' },
+    { state: 1, source: 'base64', base64: 'data:image/png;base64,...' }
+  ]
+})
+
+// Set a temporary image for the current state.
+$UD.setImage(context, {
+  isDefault: false,
+  icons: { source: 'path', path: 'images/result.png' }
+})
+
+// Clear all runtime default images for the action.
+$UD.setImage(context, { clear: true })
+
+$UD.setTitle(context, 'Ready')
+```
+
+For each `icons` item, protocol V3.1.0 supports `source: 'path'`, `source: 'base64'`, `source: 'state'`, or `source: 'clear'`. When `source` is omitted, `path` is used.
+
+### Encoder Feedback
+
+```js
+// Only built-in layout IDs are supported by protocol V3.1.0.
+$UD.setFeedbackLayout(context, '$UA1')
+
+$UD.setFeedback(context, {
+  title: { text: 'Ready' },
+  icon: { value: 'Images/new.png' }
+})
+```
+
+Custom layout files such as `custom-layout.json` are intentionally not supported because the protocol marks them as pending implementation.
 
 ### Send Parameters
 

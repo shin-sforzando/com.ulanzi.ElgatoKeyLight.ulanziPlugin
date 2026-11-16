@@ -1,8 +1,14 @@
 # CHANGELOG
 
-Last updated: 2026-07-01
+Last updated: 2026-11-17
 
 All notable changes to this project will be documented in this file.
+
+## [1.1.1] - 2026-11-17
+
+### Bug Fixes
+
+- 2026-11-17 04:39:53 :bug: anchor package excludes so node_modules dist survives
 
 ## [1.1.0] - 2026-07-01
 

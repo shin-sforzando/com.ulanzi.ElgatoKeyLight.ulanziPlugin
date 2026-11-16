@@ -1,9 +1,10 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.5.1/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.6.8/schema.json",
   "files": {
     "includes": [
       "plugin/**",
       "property-inspector/**",
+      "scripts/**",
       "manifest.json",
       "package.json",
       "biome.json",

@@ -15,6 +15,9 @@ export const Events = Object.freeze({
 	CLEAR: 'clear',
 	TOAST:'toast',
 	STATE:'state',
+	SETSTATE:'setState',
+	SETIMAGE:'setImage',
+	SETTITLE:'setTitle',
 	OPENURL:'openurl',
 	OPENVIEW:'openview',
 	SELECTDIALOG:'selectdialog',
@@ -33,7 +36,9 @@ export const Events = Object.freeze({
 	KEYUP:'keyup',
 	DIALEDOWN:'dialdown',
 	DIALEUP:'dialup',
-	DIALROTATE:'dialrotate'
+	DIALROTATE:'dialrotate',
+	SETFEEDBACKLAYOUT:'setFeedbackLayout',
+	SETFEEDBACK:'setFeedback'
 });
 
 /**
@@ -42,5 +47,3 @@ export const Events = Object.freeze({
 export const SocketErrors = {
 	DEFAULT:'closed *****'
 };
-
-

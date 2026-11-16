@@ -1,0 +1,31 @@
+# rsync exclude list shared by `mise run deploy` and `mise run package`
+# (passed via --exclude-from), so the on-device copy and the submitted ZIP
+# always contain the same files.
+#
+# Patterns WITHOUT a leading "/" match at ANY depth, including inside
+# node_modules. v1.1.0 shipped a broken ZIP because an unanchored `dist`
+# also stripped node_modules/bonjour-service/dist (the package's entry point).
+# Anchor every repo-level entry with "/"; leave a pattern unanchored only when
+# it is genuinely junk wherever it appears.
+
+# Repo-level dev files and tooling configs
+/.git
+/.github
+/.claude
+/.vscode
+/.packageignore
+/.markdownlint-cli2.jsonc
+/biome.json
+/cliff.toml
+/lefthook.yml
+/mise.toml
+/scripts
+/CONTRIBUTING.md
+# Build output of `mise run package` (the ZIP itself)
+/dist
+
+# Junk safe to drop at any depth (.gitignore also appears in the vendored
+# libs/ and plugin-common-node/; it is meaningless inside an installed plugin)
+.DS_Store
+*.log
+.gitignore

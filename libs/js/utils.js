@@ -510,16 +510,33 @@ class UlanziUtils {
    * 获取插件根目录路径
    */
 	getPluginPath(){
-		const currentFilePath = location.pathname;
-		let split_tag = '/'
-		if(currentFilePath.indexOf('\\') > -1){
-			split_tag = '\\'
+		let currentFilePath = location.pathname;
+		try {
+			currentFilePath = decodeURIComponent(currentFilePath);
+		} catch (error) {
+			console.warn('Failed to decode plugin path:', currentFilePath, error);
 		}
-		const pathArr = currentFilePath.split(split_tag);
+
+		// Use filesystem separators for paths passed to the desktop host.
+		currentFilePath = currentFilePath.replace(/\\/g, '/');
+		if (location.protocol === 'file:' && location.hostname) {
+			currentFilePath = `//${location.hostname}${currentFilePath}`;
+		}
+
+		const pathArr = currentFilePath.split('/');
 		const idx = pathArr.findIndex(f => f.endsWith('ulanziPlugin'));
-		const __folderpath = `${pathArr.slice(0, idx + 1).join("/")}`;
-	
-		return __folderpath;
+		if (idx === -1) return '';
+
+		let folderPath = pathArr.slice(0, idx + 1).join('/');
+
+		// Chromium exposes Windows file URLs as /C:/path/to/file. Remove only
+		// that leading slash so filesystem consumers receive a valid C:/ path,
+		// while preserving Unix/macOS absolute paths such as /Users/....
+		if (/^\/[A-Za-z]:\//.test(folderPath)) {
+			folderPath = folderPath.slice(1);
+		}
+
+		return folderPath;
 	
 	}
 
